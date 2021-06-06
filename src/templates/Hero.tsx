@@ -97,7 +97,7 @@ const Hero = () => {
         <HeroOneButton
           title={(
             <>
-              {'Fédeliser vos clients avec\n'}
+              {'Fidéliser vos clients avec\n'}
               <span className="text-primary-500" id="f">
                 Le Pharmacien Assistant Virtuel
               </span>
