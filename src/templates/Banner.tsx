@@ -9,7 +9,7 @@ import { Section } from '../layout/Section';
 const Banner = () => (
   <Section>
     <CTABanner
-      title="Fidèlisez vos clients avec Pharmasii"
+      title="Fidélisez vos clients avec Pharmasii"
       subtitle="Commencez la période d'essai"
       button={(
         <Link href="#f">
