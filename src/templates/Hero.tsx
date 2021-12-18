@@ -144,8 +144,7 @@ const Hero = () => {
                   className="bg-gray-200 shadow-inner sm:rounded-lg p-2 flex-1 font-extrabold text-xl placeholder-gray-400"
                   id="phone"
                   name="phone"
-                  type="number"
-                  onKeyDown={e => /[\+\-\.\,]$/.test(e.key) && e.preventDefault()}
+                  type="tel"
                   aria-label="numéro de téléphone"
                   placeholder="Entrez votre numéro de téléphone"
                   onChange={handleChange}
