@@ -47,29 +47,32 @@ const Hero = () => {
       });
     } else setContact({ ...contact, officine: JSON.stringify(e.target.checked) });
   };
-
+ 
   const handleSubmit = async (ev: { preventDefault: () => void }) => {
     ev.preventDefault();
-    setShowModal(true);
 
     try {
-      const res = await fetch('https://formspree.io/f/xknkrvyl', {
+      const res = await fetch('https://getform.io/f/e84a990a-bf38-4310-bca0-6894dd8c6942', {
         method: 'POST',
         body: JSON.stringify(contact),
         headers: { 'Content-Type': 'application/json' },
       });
 
-      const json = await res.json();
+      const result = await res;
+      console.log(result);
 
-      if (json.ok) {
+      if (result) {
         setResponse({
           type: 'success',
           message: 'Merci pour votre inscription.',
         });
+  
+        setShowModal(true);
+
       } else {
         setResponse({
           type: 'error',
-          message: json.message,
+          message: result,
         });
       }
     } catch (e) {
@@ -141,9 +144,10 @@ const Hero = () => {
                   className="bg-gray-200 shadow-inner sm:rounded-lg p-2 flex-1 font-extrabold text-xl placeholder-gray-400"
                   id="phone"
                   name="phone"
-                  type="tel"
+                  type="number"
+                  onKeyDown={e => /[\+\-\.\,]$/.test(e.key) && e.preventDefault()}
                   aria-label="numéro de téléphone"
-                  placeholder="Entrez votre numéroe de téléphone"
+                  placeholder="Entrez votre numéro de téléphone"
                   onChange={handleChange}
                   required
                 />
