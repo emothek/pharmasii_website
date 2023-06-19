@@ -19,11 +19,12 @@ import { Logo } from './Logo';
 const Hero = () => {
   const [contact, setContact] = useState({
     email: '',
-    officine: '',
+    officine: false,
     phone: '',
-    subject: 'PHARMASII - New lead',
-    replyTo: 'pharmasii.saas@gmail.com', // this will set replyTo of email to email address entered in the form
-    accessKey: 'c0f2cdfb-30df-494e-adee-91740748c2c8', // get your access key from https://www.staticforms.xyz
+    sondage: '',
+    // subject: 'PHARMASII - New lead',
+    // replyTo: 'pharmasii.saas@gmail.com', // this will set replyTo of email to email address entered in the form
+    // accessKey: 'c0f2cdfb-30df-494e-adee-91740748c2c8', // get your access key from https://www.staticforms.xyz
   });
 
   const [showModal, setShowModal] = React.useState(false);
@@ -43,19 +44,24 @@ const Hero = () => {
     if (e.target.checked) {
       setContact({
         ...contact,
-        officine: JSON.stringify(e.target.checked),
+        officine: Boolean(e.target.checked),
       });
-    } else setContact({ ...contact, officine: JSON.stringify(e.target.checked) });
+    } else setContact({ ...contact, officine: e.target.checked });
   };
- 
+
   const handleSubmit = async (ev: { preventDefault: () => void }) => {
     ev.preventDefault();
 
     try {
-      const res = await fetch('https://getform.io/f/e84a990a-bf38-4310-bca0-6894dd8c6942', {
+      console.log(contact);
+      const res = await fetch('https://parseapi.back4app.com/functions/lead', {
         method: 'POST',
         body: JSON.stringify(contact),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'X-Parse-Application-Id': '3c3FayWS8ObfKKNWkeSLQVNgMIP7CTN6H8RXOMHe',
+          'X-Parse-REST-API-Key': 'HPfgWnIaLF2LguQpULlQ1i7E1KT7GnyWmA4kYG5s',
+          'Content-Type': 'application/json' 
+        },
       });
 
       const result = await res;
@@ -66,9 +72,8 @@ const Hero = () => {
           type: 'success',
           message: 'Merci pour votre inscription.',
         });
-  
-        setShowModal(true);
 
+        setShowModal(true);
       } else {
         setResponse({
           type: 'error',
@@ -98,14 +103,14 @@ const Hero = () => {
 
       <Section yPadding="pt-20 pb-32">
         <HeroOneButton
-          title={(
+          title={
             <>
               {'Fidéliser vos clients avec\n'}
               <span className="text-primary-500" id="f">
                 Le Pharmacien Assistant Virtuel
               </span>
             </>
-          )}
+          }
           description="Envoyez à vos patients des ⏰ rappels de prise de 💊 médicaments, des conseils et des annonces de produits ⌁ directement sur leurs 📲 mobiles"
         />
 
@@ -135,7 +140,7 @@ const Hero = () => {
                   id="officine"
                 />
                 <span className="ml-2 text-gray-700 font-extrabold">
-                  Je suis Pharmacien(ne) installé(e)
+                  Je suis Pharmacien(ne) installé(e) *
                 </span>
               </label>
 
@@ -146,11 +151,26 @@ const Hero = () => {
                   name="phone"
                   type="tel"
                   aria-label="numéro de téléphone"
-                  placeholder="Entrez votre numéro de téléphone"
+                  placeholder="Entrez votre numéro de téléphone *"
                   onChange={handleChange}
                   required
                 />
               </div>
+              <div className="ml-2 text-gray-700 font-extrabold">
+                Quel sont les principaux problèmes que vous rencontrez en pharmacie ?
+              </div>
+              <div className="mt-1 flex sm-max:flex-col rounded-md shadow-sm">
+                <input
+                  className="bg-gray-200 shadow-inner sm:rounded-lg p-2 flex-1 font-extrabold text-xl placeholder-gray-400"
+                  id="sondage"
+                  name="sondage"
+                  type="tel"
+                  aria-label="Quel sont les principaux problèmes que vous rencontrez en pharmacie ?"
+                  placeholder="Que voulez-vous améliorer ?"
+                  onChange={handleChange}
+                />
+              </div>
+
               <div className="mt-1 flex sm-max:flex-col rounded-md shadow-sm">
                 <input
                   className="bg-gray-200 shadow-inner sm:rounded-l-lg p-2 flex-1 font-extrabold text-xl placeholder-gray-400"
@@ -158,7 +178,7 @@ const Hero = () => {
                   name="email"
                   type="email"
                   aria-label="email address"
-                  placeholder="Enter your email address"
+                  placeholder="Enter your email address *"
                   onChange={handleChange}
                   required
                 />
